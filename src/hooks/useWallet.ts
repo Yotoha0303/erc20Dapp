@@ -9,15 +9,19 @@ export function useWallet() {
 
   useEffect(() => {
     const init = async () => {
-      if (window.ethereum) {
-        const browserProvider = new ethers.BrowserProvider(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //获取window.ethereum对象
+        const winEthereum  = window.ethereum;
+      if (winEthereum) {
+        const browserProvider = new ethers.BrowserProvider(winEthereum);
+        await winEthereum.request({ method: 'eth_requestAccounts' });
         const signer = await browserProvider.getSigner();
         const address = await signer.getAddress();
 
         setProvider(browserProvider);
         setSigner(signer);
         setAccount(address);
+      }else{
+        alert(`未查找到您的钱包信息，请连接您的钱包`)
       }
     };
     init();
