@@ -92,3 +92,14 @@ frontend/
 
 ```
 
+# 项目图片
+
+[Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png)
+
+# 开源许可
+
+MIT
+
+# 贡献指南
+
+欢迎提 Issue 或 PR，共同完善成长记录系统！
