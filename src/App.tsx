@@ -79,7 +79,7 @@ function App() {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
-      <h1> {tokenName} DApp</h1>
+      <h1> {tokenName} Dapp</h1>
       <p>🧾 当前地址: {account}</p>
       <p>💰 当前余额: {balance} {tokenName}</p>
 
