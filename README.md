@@ -5,7 +5,7 @@
 npm run dev
 ```
 
-# 项目名称：ERC20 + 前端 DApp 项目
+# 项目名称：ERC20 + 前端 Dapp 项目
 
 ## 项目概述（补充）
 
@@ -54,13 +54,11 @@ alchemy、metamask、github actions
 [Alchemy RPC] ——> [Ethereum（Sepolia/Testnet）]
                      |
                      |—— ERC20 合约（mint/burn/transfer）
-                     |—— 分红 / 多签合约（扩展模块）
+                     |—— 分红 / 多签合约（扩展模块:未开发）
 
 ```
 
 ## 用户交互流程图
-
-注意：（推荐用工具：draw.io）
 
 模拟用户使用流程：
 
