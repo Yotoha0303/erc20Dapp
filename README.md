@@ -1,13 +1,12 @@
-# React + TypeScript + Vite Project
+# Start
 
 ```
-//run project
 npm run dev
 ```
 
 # 项目名称：ERC20 + 前端 Dapp 项目
 
-## 项目概述（补充）
+## 项目概述
 
 本项目为基于 ERC20 合约的前端 DApp，旨在模拟代币发行与管理流程，具备链上发币、授权转账、销毁等功能，涵盖基础交互、安全性测试以及工程化部署，满足真实业务开发场景。
 
@@ -102,4 +101,4 @@ MIT
 
 # 贡献指南
 
-欢迎提 Issue 或 PR，共同完善成长记录系统！
+欢迎提 Issue ，共同完善dapp！
