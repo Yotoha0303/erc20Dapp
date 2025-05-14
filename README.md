@@ -94,7 +94,7 @@ frontend/
 
 # 项目图片
 
-[Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png)
+![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png)
 
 # 开源许可
 
