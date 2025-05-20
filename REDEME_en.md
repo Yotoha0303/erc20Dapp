@@ -1,4 +1,4 @@
-**[Chinese](https://github.com/Yotoha0303/ERC20_Dapp_Project) | English**
+**[中文](https://github.com/Yotoha0303/ERC20_Dapp_Project) | English**
 # Start
 
 ```
