@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyToken is ERC20, Ownable {
+contract MyTokenWithDividend is Ownable {
     //新增分红逻辑
     mapping(address => uint256) public dividends; //可领取的分红
     mapping(address => uint256) public claimedDividends; //未领取的分红
@@ -16,22 +15,6 @@ contract MyToken is ERC20, Ownable {
     //事件提醒
     event DividendDistributed(uint256 amount, uint256 timestamp);
     event DividendClaimed(address indexed user, uint256 amount);
-
-    constructor(
-        uint256 initialSupply
-    ) ERC20("MyToken", "MTK") Ownable(msg.sender) {
-        _mint(msg.sender, initialSupply);
-    }
-
-    function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
-    }
-
-    function burn(address from, uint256 amount) public onlyOwner {
-        _burn(from, amount);
-    }
-
-    //================可模块化设计部分===========================
 
     //添加领取分红的用户
     function addDividendsUser(address memory user, uint256 memory amount) external onlyOwner {
@@ -102,6 +85,4 @@ contract MyToken is ERC20, Ownable {
     //接受 MTK 的回退函数
     receive() external payable {}
 
-
-    //===============================================================
 }
