@@ -15,6 +15,11 @@ export function useWallet() {
         const browserProvider = new ethers.BrowserProvider(winEthereum);
         await winEthereum.request({ method: 'eth_requestAccounts' });
         const signer = await browserProvider.getSigner();
+
+        const code = await browserProvider.getNetwork();
+        if(code === "0x"){
+          alert(`合约未部署`);
+        }
         const address = await signer.getAddress();
 
         setProvider(browserProvider);

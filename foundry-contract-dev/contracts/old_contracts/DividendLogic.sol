@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyTokenWithDividend is Ownable {
+abstract contract DividendLogic is Ownable {
     //新增分红逻辑
     mapping(address => uint256) public dividends; //可领取的分红
     mapping(address => uint256) public claimedDividends; //未领取的分红
