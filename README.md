@@ -98,7 +98,7 @@ dapp-front-dev/        //前端
 # 项目图片
 
 <!--- ![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png) --->
-![Project_exhibition](https://github.com/Yotoha0303/erc20Dapp/blob/main/images/dapp_erc20_exhibition.png)
+![Project_exhibition](https://github.com/Yotoha0303/erc20_dapp/blob/main/images/erc20_dapp_exhibition.png)
 
 # 开源许可
 
