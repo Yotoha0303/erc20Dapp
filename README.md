@@ -11,11 +11,11 @@ npm run dev
 
 本项目为基于 ERC20 合约的前端 DApp，旨在模拟代币发行与管理流程，具备链上发币、授权转账、销毁等功能，涵盖基础交互、安全性测试以及工程化部署，满足真实业务开发场景。
 
-**实现思路**：通过openzeppelin和ERC20构建合约，经过foundry进行测试后，使用react+vite构建前端，实现metamask连接，完成转账、授权、铸造和销毁。
+**实现思路**：通过openzeppelin和ERC20构建合约，经过foundry进行测试后，使用react+vite构建前端，实现metamask连接，完成转账、授权、铸造、销毁和分红。
 
 特殊内容说明：
 
-1、授权和铸造只能由合约提供者使用，其他用户不可以使用。
+1、授权、铸造、销毁和分红管理只能由合约提供者使用，其他用户不可以使用。
 
 2、用户在授权代币时，有两种可能。
 
@@ -34,7 +34,7 @@ npm run dev
 | react          | v19.0.0                          | 前端框架           |
 | vite           | 6.3.1                            | 前端构建工具       |
 | ts(TypeScript) | 5.7.2                            | 前端脚本编程       |
-| bootstrap      |                                  | 前端样式开发       |
+| tailwindcss    |                                  | 前端样式开发       |
 
 其他工具:
 
@@ -54,7 +54,7 @@ alchemy、metamask、github actions
 [Alchemy RPC] ——> [Ethereum（Sepolia/Testnet）]
                      |
                      |—— ERC20 合约（mint/burn/transfer）
-                     |—— 分红 / 多签合约（扩展模块:未开发）
+                     |—— 分红
 
 ```
 
@@ -79,7 +79,10 @@ text复制编辑用户打开页面
 
 ```
 //项目结构
-frontend/
+images/                //演示图片
+foundry-contract-dev/  //合约开发
+doc/                   //项目文档
+dapp-front-dev/        //前端
 ├── src/
 │   ├── components/        # UI组件
 │   ├── hooks/             # 自定义钱包连接 Hook
@@ -94,7 +97,8 @@ frontend/
 
 # 项目图片
 
-![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png)
+<!--- ![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png) --->
+![Project_exhibition](https://github.com/Yotoha0303/erc20Dapp/blob/main/images/dapp_erc20_exhibition.png)
 
 # 开源许可
 
