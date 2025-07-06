@@ -32,7 +32,7 @@ contract MyToken is ERC20, Ownable {
     }
 
     //添加领取分红的用户
-    function addDividendsUser(address user, uint256 amount) external onlyOwner {
+    function addDividendsUser(address memory user, uint256 memory amount) external onlyOwner {
         require(user != 0x00, "you can't input 0x00");
 
         dividends[user] = amount;
@@ -40,8 +40,8 @@ contract MyToken is ERC20, Ownable {
 
     //添加批量领取分红的用户
     function addBatchDividendsUsers(
-        address[] users,
-        uint256[] amounts
+        address[] memory users,
+        uint256[] memory amounts
     ) external onlyOwner {
         for (uint256 i = 0; i < users.length; i++) {
             addDividendsUser(users[i], amounts[i]);
