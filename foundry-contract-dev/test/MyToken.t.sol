@@ -5,11 +5,11 @@ import {Test} from "forge-std/Test.sol";
 import {MyToken} from "../contracts/MyToken.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyToken is Test{
+contract MyTokenTest is Test{
     MyToken public token;
 
     function setUp() public{
-        token = new MyToken();
+        token = new MyToken(10000);
     }
 
     function test_min() public{
