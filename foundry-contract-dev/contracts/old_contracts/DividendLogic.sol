@@ -15,6 +15,8 @@ abstract contract DividendLogic {
     event DividendClaimed(address indexed user, uint256 amount);
 
     function owner() public view virtual returns (address);
+    function totalSupply() public view virtual returns (uint256);
+    function balanceOf(address user) public view virtual returns (uint256);
 
     modifier onlyOwner(){
         require(msg.sender == owner(),"Only owner can call this function");
@@ -22,8 +24,8 @@ abstract contract DividendLogic {
     }
 
     //添加领取分红的用户
-    function addDividendsUser(address user, uint256 amount) external onlyOwner{
-        require(user != 0x00, "you can't input 0x00");
+    function addDividendsUser(address user, uint256 amount) public onlyOwner{
+        require(user == address(0x0), "you can't input 0x00");
 
         dividends[user] = amount;
     }
@@ -68,7 +70,7 @@ abstract contract DividendLogic {
         require(amount > 0, "No dividends to claim");
 
         dividends[msg.sender] = 0;
-        claimDividends[msg.sender] += amount;
+        claimedDividends[msg.sender] += amount;
 
         (bool sent, ) = msg.sender.call{value: amount}("");
         require(sent, "Failed to send MTK");

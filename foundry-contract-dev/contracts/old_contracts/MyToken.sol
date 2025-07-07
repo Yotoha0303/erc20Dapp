@@ -18,7 +18,7 @@ contract MyToken is ERC20, Ownable,Initializable {
 
     constructor(
         
-    ) ERC20("MyToken", "MTK") Ownable() {
+    ) ERC20("MyToken", "MTK") Ownable(msg.sender) {
         
     }
 

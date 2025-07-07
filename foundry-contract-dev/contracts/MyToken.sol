@@ -34,8 +34,8 @@ contract MyToken is ERC20, Ownable {
     //================可模块化设计部分===========================
 
     //添加领取分红的用户
-    function addDividendsUser(address memory user, uint256 memory amount) external onlyOwner {
-        require(user != 0x00, "you can't input 0x00");
+    function addDividendsUser(address user, uint256 amount) public onlyOwner {
+        require(user != address(0x0), "you can't input 0x00");
 
         dividends[user] = amount;
     }
@@ -54,7 +54,7 @@ contract MyToken is ERC20, Ownable {
         require(msg.value > 0, "No MTK sent for dividends");
         require(totalSupply() > 0, "No tokens issued");
 
-        totalDividends += msg.sender;
+        totalDividends += msg.value;
         lastDividendTimestamp = block.timestamp;
 
         uint256 totalTokens = totalSupply();
@@ -78,7 +78,7 @@ contract MyToken is ERC20, Ownable {
         require(amount > 0, "No dividends to claim");
 
         dividends[msg.sender] = 0;
-        claimDividends[msg.sender] += amount;
+        claimedDividends[msg.sender] += amount;
 
         (bool sent, ) = msg.sender.call{value: amount}("");
         require(sent, "Failed to send MTK");
