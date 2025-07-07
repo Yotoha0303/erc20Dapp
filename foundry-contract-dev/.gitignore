@@ -2,6 +2,7 @@
 cache/
 out/
 .deps/
+.states/
 
 # Ignores development broadcast logs
 !/broadcast
