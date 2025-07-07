@@ -21,6 +21,8 @@ function App() {
   const [transferFromAddress, setTransferFromAddress] = useState<string>("");
   const [transferFromAmount, setTransferFromAmount] = useState<string>("0.01");
 
+  const [isOwner, setIsOwner] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       if (!signer || !account) return;
@@ -30,6 +32,10 @@ function App() {
       const name = await contract.name();
       const decimals = await contract.decimals();
       const balanceBN = await contract.balanceOf(account);
+
+      const ownerAddress = await contract.owner();
+      const isOwner = ownerAddress === account;
+      setIsOwner(isOwner);
 
       setTokenName(name);
       setDecimals(decimals);
@@ -156,6 +162,7 @@ function App() {
         {/* 功能卡片网格 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto mb-8">
           {/* Mint Card */}
+          {isOwner?(
           <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-emerald-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-emerald-500/20 transform hover:-translate-y-2">
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-emerald-500/50 transition-all duration-300">
@@ -185,6 +192,10 @@ function App() {
               </button>
             </div>
           </div>
+          ):(
+            //非管理员无法铸造
+            <></>
+          )}
 
           {/* Transfer Card */}
           <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-blue-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 transform hover:-translate-y-2">
@@ -230,6 +241,7 @@ function App() {
           </div>
 
           {/* Burn Card */}
+          {isOwner?(
           <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-red-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2">
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-red-500/50 transition-all duration-300">
@@ -271,6 +283,11 @@ function App() {
               </button>
             </div>
           </div>
+        ):(
+            //非管理员无法铸造
+            <></>
+          )}
+
 
           {/* Approve Card */}
           <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-purple-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 transform hover:-translate-y-2">
