@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-
-abstract contract DividendLogic is Ownable {
+abstract contract DividendLogic {
     //新增分红逻辑
     mapping(address => uint256) public dividends; //可领取的分红
     mapping(address => uint256) public claimedDividends; //未领取的分红
@@ -16,8 +14,15 @@ abstract contract DividendLogic is Ownable {
     event DividendDistributed(uint256 amount, uint256 timestamp);
     event DividendClaimed(address indexed user, uint256 amount);
 
+    function owner() public view virtual returns (address);
+
+    modifier onlyOwner(){
+        require(msg.sender == owner(),"Only owner can call this function");
+        _;
+    }
+
     //添加领取分红的用户
-    function addDividendsUser(address memory user, uint256 memory amount) external onlyOwner {
+    function addDividendsUser(address user, uint256 amount) external onlyOwner{
         require(user != 0x00, "you can't input 0x00");
 
         dividends[user] = amount;
@@ -33,14 +38,16 @@ abstract contract DividendLogic is Ownable {
         }
     }
 
-    function distributeDividends() external payable onlyOwner {
+    function distributeDividends() external payable onlyOwner{
         require(msg.value > 0, "No MTK sent for dividends");
         require(totalSupply() > 0, "No tokens issued");
 
-        totalDividends += msg.sender;
+        totalDividends += msg.value;
         lastDividendTimestamp = block.timestamp;
 
         uint256 totalTokens = totalSupply();
+
+        //可优化点标记
         address[] memory holders = getTokenHolders();
 
         //gas可优化

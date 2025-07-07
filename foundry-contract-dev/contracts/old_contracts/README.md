@@ -10,3 +10,6 @@
 
 2、DividendLogic.sol
 实现分红逻辑的合约
+
+3、MyTokenUpgrade.sol
+合约代理

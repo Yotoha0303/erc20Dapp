@@ -9,14 +9,17 @@ contract MyToken is ERC20, Ownable,Initializable {
 
     uint256 public value;
 
-    function initialize(uint256 _setValue) public initializer {
+    //设置版本号
+    function initialize(uint256 _setValue,uint256 initialSupply) public initializer {
         value = _setValue;
+        _mint(msg.sender, initialSupply);
+        _transferOwnership(msg.sender);
     }
 
     constructor(
-        uint256 initialSupply
-    ) ERC20("MyToken", "MTK") Ownable(msg.sender) {
-        _mint(msg.sender, initialSupply);
+        
+    ) ERC20("MyToken", "MTK") Ownable() {
+        
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
