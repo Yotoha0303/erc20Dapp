@@ -50,6 +50,7 @@ contract MyToken is ERC20, Ownable {
         }
     }
 
+    //BUG点
     function distributeDividends() external payable onlyOwner {
         require(msg.value > 0, "No MTK sent for dividends");
         require(totalSupply() > 0, "No tokens issued");
@@ -72,7 +73,7 @@ contract MyToken is ERC20, Ownable {
         emit DividendDistributed(msg.value, block.timestamp);
     }
 
-    //持有者领取分红
+    //持有者领取分红（bug:未能领取分红）
     function claimDividends() external {
         uint256 amount = dividends[msg.sender];
         require(amount > 0, "No dividends to claim");
@@ -93,6 +94,7 @@ contract MyToken is ERC20, Ownable {
         return dividends[user];
     }
 
+    //获取当前调用者可领取的分红额度
     function getTokenHolders() internal view returns (address[] memory) {
         address[] memory holders = new address[](1);
         holders[0] = msg.sender;
