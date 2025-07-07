@@ -2,6 +2,10 @@
 # Start
 
 ```
+cd dapp-front-dev
+
+npm i
+
 npm run dev
 ```
 
