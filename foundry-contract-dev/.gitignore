@@ -1,6 +1,7 @@
 # Compiler files
 cache/
 out/
+.deps/
 
 # Ignores development broadcast logs
 !/broadcast
