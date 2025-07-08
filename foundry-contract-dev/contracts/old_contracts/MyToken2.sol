@@ -2,89 +2,85 @@
 pragma solidity ^0.8.20;
 
 import "./MyToken.sol";
+import "./DividendLogic.sol";
 
-//合约V2版本
-contract MyToken2 is MyToken{
-    //新增分红逻辑
-    mapping(address => uint256) public dividends; //可领取的分红
-    mapping(address => uint256) public claimedDividends; //未领取的分红
+interface IMyToken2 {
+    function getTokenHolders() external view returns (address[] memory);
+}
 
-    //总分红池子
-    uint256 public totalDividends;
-    uint256 public lastDividendTimestamp;
+contract MyToken2 is MyToken, IMyToken2 {
+    address public dividendLogic;
 
-    //事件提醒
-    event DividendDistributed(uint256 amount, uint256 timestamp);
-    event DividendClaimed(address indexed user, uint256 amount);
+    // 临时持币者列表（需优化）
+    address[] private holders;
 
-    //添加领取分红的用户
-    function addDividendsUser(address user, uint256 amount) public onlyOwner{
-        require(user == address(0x0), "you can't input 0x00");
-
-        dividends[user] = amount;
+    constructor() {
+        // 构造函数仅用于部署，实际初始化通过 initialize
     }
 
-    //添加批量领取分红的用户
-    function addBatchDividendsUsers(
-        address[] memory users,
-        uint256[] memory amounts
-    ) external onlyOwner {
-        for (uint256 i = 0; i < users.length; i++) {
-            addDividendsUser(users[i], amounts[i]);
-        }
+    // 初始化 MyToken2 和 DividendLogic
+    function initializeV2(address _dividendLogic) external onlyOwner {
+        require(_dividendLogic != address(0), "Invalid DividendLogic address");
+        dividendLogic = _dividendLogic;
+        holders.push(msg.sender); // 临时添加调用者为持币者
     }
 
-    function distributeDividends() external payable onlyOwner{
-        require(msg.value > 0, "No MTK sent for dividends");
-        require(totalSupply() > 0, "No tokens issued");
-
-        totalDividends += msg.value;
-        lastDividendTimestamp = block.timestamp;
-
-        uint256 totalTokens = totalSupply();
-
-        //可优化点标记
-        address[] memory holders = getTokenHolders();
-
-        //gas可优化
-        for (uint256 i = 0; i < holders.length; i++) {
-            address holder = holders[i];
-            uint256 balance = balanceOf(holder);
-            if (balance > 0) {
-                dividends[holder] += (msg.value * balance) / totalTokens;
-            }
-        }
-
-        emit DividendDistributed(msg.value, block.timestamp);
+    // 代理调用 DividendLogic 的分红功能
+    function addDividendsUser(address user, uint256 amount) external onlyOwner {
+        DividendLogic(dividendLogic).addDividendsUser(user, amount);
     }
 
-    //持有者领取分红
+    function addBatchDividendsUsers(address[] memory users, uint256[] memory amounts) external onlyOwner {
+        DividendLogic(dividendLogic).addBatchDividendsUsers(users, amounts);
+    }
+
+    function distributeDividends() external payable onlyOwner {
+        DividendLogic(dividendLogic).distributeDividends(address(this));
+    }
+
     function claimDividends() external {
-        uint256 amount = dividends[msg.sender];
-        require(amount > 0, "No dividends to claim");
-
-        dividends[msg.sender] = 0;
-        claimedDividends[msg.sender] += amount;
-
-        (bool sent, ) = msg.sender.call{value: amount}("");
-        require(sent, "Failed to send MTK");
-
-        emit DividendClaimed(msg.sender, amount);
+        DividendLogic(dividendLogic).claimDividends(msg.sender);
     }
 
-    //获取可领取的分红额度
-    function getClaimableDividents(
-        address user
-    ) external view returns (uint256) {
-        return dividends[user];
+    function getClaimableDividends(address user) external view returns (uint256) {
+        return DividendLogic(dividendLogic).getClaimableDividends(user);
     }
 
-    function getTokenHolders() internal view returns (address[] memory) {
-        address[] memory holders = new address[](1);
-        holders[0] = msg.sender;
+    // 临时实现，需优化
+    function getTokenHolders() external view override returns (address[] memory) {
         return holders;
     }
 
-    //接受 MTK 的回退函数
-    receive() external payable {}
-}   
+    // 重写 transfer 以更新持币者列表
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        super.transfer(to, amount);
+        _updateHolders(msg.sender);
+        _updateHolders(to);
+        return true;
+    }
+
+    function _updateHolders(address user) internal {
+        if (balanceOf(user) > 0 && !containsHolder(user)) {
+            holders.push(user);
+        } else if (balanceOf(user) == 0 && containsHolder(user)) {
+            removeHolder(user);
+        }
+    }
+
+    function containsHolder(address user) internal view returns (bool) {
+        for (uint256 i = 0; i < holders.length; i++) {
+            if (holders[i] == user) return true;
+        }
+        return false;
+    }
+
+    function removeHolder(address user) internal {
+        for (uint256 i = 0; i < holders.length; i++) {
+            if (holders[i] == user) {
+                holders[i] = holders[holders.length - 1];
+                holders.pop();
+                break;
+            }
+        }
+    }
+}
