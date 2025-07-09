@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DividendLogic is Ownable {
+abstract contract DividendLogic is Ownable {
     // 存储在调用合约（MyToken2）中
     mapping(address => uint256) public dividends;
     mapping(address => uint256) public claimedDividends;
@@ -14,7 +14,7 @@ contract DividendLogic is Ownable {
     event DividendDistributed(uint256 amount, uint256 timestamp);
     event DividendClaimed(address indexed user, uint256 amount);
 
-    constructor() Ownable(msg.sender) {}
+    // constructor() Ownable(msg.sender) {}
 
     // 初始化分红相关状态变量
     function initializeDividends() external onlyOwner {
@@ -46,16 +46,16 @@ contract DividendLogic is Ownable {
         lastDividendTimestamp = block.timestamp;
 
         // 假设持币者列表由 MyToken2 提供
-        address[] memory holders = IMyToken2(token).getTokenHolders();
-        uint256 totalTokens = IERC20(token).totalSupply();
+        // address[] memory holders = IMyToken2(token).getTokenHolders();
+        // uint256 totalTokens = IERC20(token).totalSupply();
 
-        for (uint256 i = 0; i < holders.length; i++) {
-            address holder = holders[i];
-            uint256 balance = IERC20(token).balanceOf(holder);
-            if (balance > 0) {
-                dividends[holder] += (msg.value * balance) / totalTokens;
-            }
-        }
+        // for (uint256 i = 0; i < holders.length; i++) {
+        //     address holder = holders[i];
+        //     uint256 balance = IERC20(token).balanceOf(holder);
+        //     if (balance > 0) {
+        //         dividends[holder] += (msg.value * balance) / totalTokens;
+        //     }
+        // }
 
         emit DividendDistributed(msg.value, block.timestamp);
     }
