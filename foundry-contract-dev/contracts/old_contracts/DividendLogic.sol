@@ -11,6 +11,8 @@ abstract contract DividendLogic is Ownable {
     uint256 public totalDividends;
     uint256 public lastDividendTimestamp;
 
+    address[] public holders;   // 持币者列表
+
     event DividendDistributed(uint256 amount, uint256 timestamp);
     event DividendClaimed(address indexed user, uint256 amount);
 
@@ -26,6 +28,7 @@ abstract contract DividendLogic is Ownable {
     function addDividendsUser(address user, uint256 amount) external onlyOwner {
         require(user != address(0), "Invalid address");
         dividends[user] = amount;
+        holders.push(user);
     }
 
     // 批量添加分红用户
@@ -39,23 +42,21 @@ abstract contract DividendLogic is Ownable {
 
     // 分发分红
     function distributeDividends(address token) external payable onlyOwner {
-        require(msg.value > 0, "No ETH sent for dividends");
+        // require(msg.value > 0, "No ETH sent for dividends");
         require(IERC20(token).totalSupply() > 0, "No tokens issued");
 
         totalDividends += msg.value;
         lastDividendTimestamp = block.timestamp;
 
-        // 假设持币者列表由 MyToken2 提供
-        // address[] memory holders = IMyToken2(token).getTokenHolders();
-        // uint256 totalTokens = IERC20(token).totalSupply();
+        uint256 totalTokens = IERC20(token).totalSupply();
 
-        // for (uint256 i = 0; i < holders.length; i++) {
-        //     address holder = holders[i];
-        //     uint256 balance = IERC20(token).balanceOf(holder);
-        //     if (balance > 0) {
-        //         dividends[holder] += (msg.value * balance) / totalTokens;
-        //     }
-        // }
+        for (uint256 i = 0; i < holders.length; i++) {
+            address holder = holders[i];
+            uint256 balance = IERC20(token).balanceOf(holder);
+            if (balance > 0) {
+                dividends[holder] += (msg.value * balance) / totalTokens;
+            }
+        }
 
         emit DividendDistributed(msg.value, block.timestamp);
     }
@@ -69,6 +70,7 @@ abstract contract DividendLogic is Ownable {
         claimedDividends[user] += amount;
 
         (bool sent, ) = user.call{value: amount}("");
+        // payable(user).transfer(amount);
         require(sent, "Failed to send ETH");
 
         emit DividendClaimed(user, amount);
