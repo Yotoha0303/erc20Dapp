@@ -393,9 +393,13 @@ function App() {
         </div>
 
         {/* MainContent Component */}
+        {isOwner?(
         <div className="mt-12">
           <MainContent />
         </div>
+        ):(
+          <></>
+        )}
       </div>
     </div>
   );

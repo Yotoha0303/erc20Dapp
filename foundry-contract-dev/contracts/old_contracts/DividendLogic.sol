@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 abstract contract DividendLogic is Ownable {
     // 存储在调用合约（MyToken2）中
-    mapping(address => uint256) public dividends;
+    mapping(address => uint256) public dividends;  
     mapping(address => uint256) public claimedDividends;
     uint256 public totalDividends;
     uint256 public lastDividendTimestamp;
@@ -38,9 +38,9 @@ abstract contract DividendLogic is Ownable {
         }
     }
 
-    // 分发分红
+    // 分发分红（调用代币合约进行分红，管理员调用该方法时，需要转入ETH）
     function distributeDividends(address token) external payable onlyOwner {
-        //1、检查是否发送了ETH
+        //1、检查管理员是否发送了ETH
         require(msg.value > 0, "No ETH sent for dividends");
         //2、检查是否发行了代币
         require(IERC20(token).totalSupply() > 0, "No tokens issued");
@@ -49,14 +49,17 @@ abstract contract DividendLogic is Ownable {
         totalDividends += msg.value;
         lastDividendTimestamp = block.timestamp;
 
-        //4、获取代币总供应量
+        //4、获取代币总供应量(假设为公司总股份)
         uint256 totalTokens = IERC20(token).totalSupply();
 
         //5、遍历持币者列表，计算每个持币者的分红数额
         for (uint256 i = 0; i < holders.length; i++) {
+            //获取分红的名单
             address holder = holders[i];
+            //获取持股人投资的股份
             uint256 balance = IERC20(token).balanceOf(holder);
             if (balance > 0) {
+                //按照份额将分红分发给投资者
                 dividends[holder] += (msg.value * balance) / totalTokens;
             }
         }

@@ -1,17 +1,89 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { useWallet } from "../hooks/useWallet";
+import { TOKEN_ABI, TOKEN_ADDRESS } from "../contracts/MyToken";
 
 export default function MainContent() {
   // 状态管理
-  const [singleUser, setSingleUser] = useState("");
-  const [multiUsers, setMultiUsers] = useState("");
-  const [queryAddress, setQueryAddress] = useState("");
-  const [claimAddress, setClaimAddress] = useState("");
+  const { account, signer } = useWallet();
+  const [singleUser, setSingleUser] = useState<string>("");
+  const [multiUsers, setMultiUsers] = useState<string>("");
+  const [queryAddress, setQueryAddress] = useState<string>("");
+  const [claimAddress, setClaimAddress] = useState<string>("");
 
-  // TODO: 这里后续可接入合约方法
-  const handleAddSingleUser = () => {};
-  const handleAddMultiUsers = () => {};
-  const handleQueryDividend = () => {};
-  const handleClaimDividend = () => {};
+  // const [balance, setBalance] = useState<string>("0");
+  // const [isOwner, setIsOwner] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!signer || !account) return;
+
+      const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+
+      // const name = await contract.name();
+      const decimals = await contract.decimals();
+      const balanceBN = await contract.balanceOf(account);
+
+      const ownerAddress = await contract.owner();
+      const isOwner = ownerAddress === account;
+      setIsOwner(isOwner);
+
+      setBalance(ethers.formatUnits(balanceBN, decimals));
+    };
+
+    fetchData();
+  }, [account, signer]);
+
+  // 添加单个分红用户
+  const handleAddSingleUser = async () => {
+    if (!signer || !account) return;
+    try {
+      const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      //调用合约，添加单个用户
+
+    } catch (err) {
+      console.log("AddSingleUser Error", err);
+      alert("Add a single use Error:" + (err as Error).message);
+    }
+  };
+  // 添加多个分红用户
+  const handleAddMultiUsers = async () => {
+    if (!signer || !account) return;
+    try {
+      const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      //调用合约，添加多个用户
+
+    } catch (err) {
+      console.log("AddMultiUsers Error", err);
+      alert("Add a Multi use Error:" + (err as Error).message);
+    }
+  };
+
+  // 查询分红
+  const handleQueryDividend = async () => {
+    if (!signer || !account) return;
+    try {
+      const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      //调用合约，查看分红
+
+    } catch (err) {
+      console.log("QueryDividend Error", err);
+      alert("Query dividend Error:" + (err as Error).message);
+    }
+  };
+
+  // 领取分红
+  const handleClaimDividend = async () => {
+    if (!signer || !account) return;
+    try {
+      const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      //调用合约，领取分红
+
+    } catch (err) {
+      console.log("ClaimDividend Error", err);
+      alert("Claim dividend Error:" + (err as Error).message);
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -25,11 +97,13 @@ export default function MainContent() {
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-cyan-200 mb-2">单个用户地址</label>
+            <label className="block text-sm font-medium text-cyan-200 mb-2">
+              单个用户地址
+            </label>
             <input
               type="text"
               value={singleUser}
-              onChange={e => setSingleUser(e.target.value)}
+              onChange={(e) => setSingleUser(e.target.value)}
               className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
               placeholder="输入单个用户地址"
             />
@@ -41,11 +115,13 @@ export default function MainContent() {
             添加单个用户
           </button>
           <div>
-            <label className="block text-sm font-medium text-cyan-200 mb-2">多个用户地址（逗号分隔）</label>
+            <label className="block text-sm font-medium text-cyan-200 mb-2">
+              多个用户地址（逗号分隔）
+            </label>
             <input
               type="text"
               value={multiUsers}
-              onChange={e => setMultiUsers(e.target.value)}
+              onChange={(e) => setMultiUsers(e.target.value)}
               className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
               placeholder="输入多个用户地址,用逗号分隔"
             />
@@ -69,11 +145,13 @@ export default function MainContent() {
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-cyan-200 mb-2">查看分红</label>
+            <label className="block text-sm font-medium text-cyan-200 mb-2">
+              查看分红
+            </label>
             <input
               type="text"
               value={queryAddress}
-              onChange={e => setQueryAddress(e.target.value)}
+              onChange={(e) => setQueryAddress(e.target.value)}
               className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
               placeholder="输入需要查看的地址"
             />
@@ -85,11 +163,13 @@ export default function MainContent() {
             查看分红
           </button>
           <div>
-            <label className="block text-sm font-medium text-cyan-200 mb-2">领取分红</label>
+            <label className="block text-sm font-medium text-cyan-200 mb-2">
+              领取分红
+            </label>
             <input
               type="text"
               value={claimAddress}
-              onChange={e => setClaimAddress(e.target.value)}
+              onChange={(e) => setClaimAddress(e.target.value)}
               className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
               placeholder="输入需要领取的地址"
             />
