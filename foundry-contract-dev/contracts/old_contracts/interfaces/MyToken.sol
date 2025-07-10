@@ -2,9 +2,8 @@
 pragma solidity ^0.8.20;
 
 interface MyToken {
-    function initialize(uint256 _setValue,uint256 initialSupply) external;
 
-    function totalSupply() external view returns (uint256);
+    function mint(address to, uint256 amount) external;
 
-    function value() external view returns(uint256);
+    function balanceOf(address account) external view returns (uint256);
 }

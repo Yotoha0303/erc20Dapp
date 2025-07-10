@@ -12,7 +12,7 @@ contract MyTokenTest is Test{
         token = new MyToken(10000);
     }
 
-    function test_min() public{
+    function test_mint() public{
         token.mint(msg.sender,10);
         assertEq(token.balanceOf(msg.sender), 10);
     }
