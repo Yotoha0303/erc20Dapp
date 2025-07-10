@@ -1,5 +1,5 @@
-**中文 | [English](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/REDEME_en.md)**
-# Start
+**中文 | [English](https://github.com/Yotoha0303/erc20_dapp/blob/main/doc/translator/REDEME_en.md)**
+# 启动
 
 ```
 cd dapp-front-dev

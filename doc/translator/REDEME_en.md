@@ -1,7 +1,11 @@
-**[中文](https://github.com/Yotoha0303/ERC20_Dapp_Project) | English**
+**中文 | [English](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/REDEME_en.md)**
 # Start
 
 ```
+cd dapp-front-dev
+
+npm i
+
 npm run dev
 ```
 
@@ -11,17 +15,17 @@ npm run dev
 
 This project is a front-end DApp based on ERC20 contracts, which aims to simulate the token issuance and management process. It has functions such as on-chain coin issuance, authorized transfer, and destruction, covering basic interactions, security testing, and engineering deployment to meet real business development scenarios.
 
-**Implementation ideas**: Build contracts through openzeppelin and ERC20, test them through foundry, build the front-end with react+vite, realize metamask connection, and complete transfer, authorization, casting, and destruction.
+**Implementation ideas**: Build contracts through openzeppelin and ERC20, test them through foundry, use react+vite to build the front end, realize metamask connection, and complete transfer, authorization, casting, destruction, and dividends.
 
 Special content description:
 
-1. Authorization and casting can only be used by contract providers, not other users.
+1. Authorization, minting, destruction and dividend management can only be used by contract providers, and other users cannot use it.
 
-2. There are two possibilities when users authorize tokens.
+2. When users authorize tokens, there are two possibilities.
 
 1) Directly authorize other users to use their own tokens
 
-2) After authorizing the token, directly transfer
+2) After the tokens are authorized, they are directly withdrawn by the authorized account
 
 **Technology stack**:
 
@@ -34,7 +38,8 @@ Special content description:
 | react | v19.0.0 | Front-end framework |
 | vite | 6.3.1 | Front-end build tool |
 | ts(TypeScript) | 5.7.2 | Front-end script programming |
-| bootstrap | | Front-end style development |
+| tailwindcss | | Front-end style development |
+| vercel | | Hot deployment tool |
 
 Other tools:
 
@@ -54,7 +59,7 @@ alchemy, metamask, github actions
 [Alchemy RPC] ——> [Ethereum (Sepolia/Testnet)]
 |
 |—— ERC20 contract (mint/burn/transfer)
-|—— Dividend/multi-signature contract (extension module: undeveloped)
+|—— Dividends
 
 ```
 
@@ -70,7 +75,7 @@ Click "Connect wallet"
 Page displays account balance
 ↓
 [If it is Owner]
-→ Mint/Burn button is visible
+→ Mint / Burn button is visible
 ↓
 Click operation → Trigger contract → Success prompt
 ```
@@ -79,7 +84,10 @@ Click operation → Trigger contract → Success prompt
 
 ```
 //Project structure
-frontend/
+images/ //Demo image
+foundry-contract-dev/ //Contract development
+doc/ //Project documentation
+dapp-front-dev/ //Front-end
 ├── src/
 │ ├── components/ # UI components
 │ ├── hooks/ # Custom wallet connection Hook
@@ -94,12 +102,15 @@ frontend/
 
 # Project image
 
-![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png)
+**[Project address](https://erc20-dapp.vercel.app/)**
 
-# Open source license
+<!--- ![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png) --->
+![Project_exhibition](https://github.com/Yotoha0303/erc20_dapp/blob/main/images/erc20_dapp_exhibition.png)
+
+# Open Source License
 
 MIT
 
-# Contribution guide
+# Contribution Guide
 
-Welcome to issue issues and improve dapp together!
+Welcome to submit issues and work together to improve dapp!
