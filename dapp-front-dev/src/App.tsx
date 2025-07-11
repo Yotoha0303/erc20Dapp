@@ -162,37 +162,37 @@ function App() {
         {/* 功能卡片网格 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto mb-8">
           {/* Mint Card */}
-          {isOwner?(
-          <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-emerald-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-emerald-500/20 transform hover:-translate-y-2">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-emerald-500/50 transition-all duration-300">
-                <span className="text-2xl">🔨</span>
+          {isOwner ? (
+            <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-emerald-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-emerald-500/20 transform hover:-translate-y-2">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-emerald-500/50 transition-all duration-300">
+                  <span className="text-2xl">🔨</span>
+                </div>
+                <h3 className="text-xl font-bold text-white">铸造代币</h3>
               </div>
-              <h3 className="text-xl font-bold text-white">铸造代币</h3>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-cyan-200 mb-2">
-                  铸造数量
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={mintAmount}
-                  onChange={(e) => setMintAmount(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
-                  placeholder="输入数量"
-                />
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-cyan-200 mb-2">
+                    铸造数量
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={mintAmount}
+                    onChange={(e) => setMintAmount(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
+                    placeholder="输入数量"
+                  />
+                </div>
+                <button
+                  onClick={handleMint}
+                  className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg hover:shadow-emerald-500/50"
+                >
+                  铸造代币
+                </button>
               </div>
-              <button
-                onClick={handleMint}
-                className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg hover:shadow-emerald-500/50"
-              >
-                铸造代币
-              </button>
             </div>
-          </div>
-          ):(
+          ) : (
             //非管理员无法铸造
             <></>
           )}
@@ -241,53 +241,52 @@ function App() {
           </div>
 
           {/* Burn Card */}
-          {isOwner?(
-          <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-red-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-red-500/50 transition-all duration-300">
-                <span className="text-2xl">🔥</span>
+          {isOwner ? (
+            <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-red-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-red-500/50 transition-all duration-300">
+                  <span className="text-2xl">🔥</span>
+                </div>
+                <h3 className="text-xl font-bold text-white">销毁代币</h3>
               </div>
-              <h3 className="text-xl font-bold text-white">销毁代币</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-cyan-200 mb-2">
+                    销毁地址
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="输入销毁地址"
+                    value={burnFrom}
+                    onChange={(e) => setBurnFrom(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-cyan-200 mb-2">
+                    销毁数量
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={burnAmount}
+                    onChange={(e) => setBurnAmount(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
+                    placeholder="输入数量"
+                  />
+                </div>
+                <button
+                  onClick={handleBurn}
+                  className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg hover:shadow-red-500/50"
+                >
+                  销毁代币
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-cyan-200 mb-2">
-                  销毁地址
-                </label>
-                <input
-                  type="text"
-                  placeholder="输入销毁地址"
-                  value={burnFrom}
-                  onChange={(e) => setBurnFrom(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-cyan-200 mb-2">
-                  销毁数量
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={burnAmount}
-                  onChange={(e) => setBurnAmount(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
-                  placeholder="输入数量"
-                />
-              </div>
-              <button
-                onClick={handleBurn}
-                className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg hover:shadow-red-500/50"
-              >
-                销毁代币
-              </button>
-            </div>
-          </div>
-        ):(
+          ) : (
             //非管理员无法铸造
             <></>
           )}
-
 
           {/* Approve Card */}
           <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-purple-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 transform hover:-translate-y-2">
@@ -393,11 +392,11 @@ function App() {
         </div>
 
         {/* MainContent Component */}
-        {isOwner?(
-        <div className="mt-12">
-          <MainContent />
-        </div>
-        ):(
+        {isOwner ? (
+          <div className="mt-12">
+            <MainContent useWallet={useWallet} />
+          </div>
+        ) : (
           <></>
         )}
       </div>

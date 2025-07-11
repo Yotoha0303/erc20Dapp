@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useWallet } from "../hooks/useWallet";
+// import { useWallet } from "../hooks/useWallet";
 import { TOKEN_ABI, TOKEN_ADDRESS } from "../contracts/MyToken";
 
-export default function MainContent() {
+export default function MainContent({useWallet}) {
   // 状态管理
   const { account, signer } = useWallet();
   const [singleUser, setSingleUser] = useState<string>("");
@@ -25,10 +25,11 @@ export default function MainContent() {
       const balanceBN = await contract.balanceOf(account);
 
       const ownerAddress = await contract.owner();
-      const isOwner = ownerAddress === account;
-      setIsOwner(isOwner);
 
-      setBalance(ethers.formatUnits(balanceBN, decimals));
+      // const isOwner = ownerAddress === account;
+      // setIsOwner(isOwner);
+
+      // setBalance(ethers.formatUnits(balanceBN, decimals));
     };
 
     fetchData();
