@@ -19,7 +19,7 @@ abstract contract DividendLogic is Initializable,OwnableUpgradeable {
 
     // 重要：升级兼容的初始化函数
     function __DividendLogic_init() internal onlyInitializing {
-        __Ownable_init(); // 如果需要的话
+        __Ownable_init(msg.sender); // 如果需要的话
         totalDividends = 0;
         lastDividendTimestamp = 0;
     }
