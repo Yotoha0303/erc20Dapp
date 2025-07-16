@@ -19,7 +19,7 @@ contract MyToken is
 
     function initialize(uint256 initialSupply) public initializer {
         __ERC20_init("MyToken", "MTK");
-        __Ownable_init(msg.sender);
+        __Ownable_init();
         __UUPSUpgradeable_init();
 
         _mint(msg.sender, initialSupply);

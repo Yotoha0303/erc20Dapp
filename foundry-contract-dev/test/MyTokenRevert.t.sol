@@ -10,6 +10,6 @@ contract MyTokenRevertTest is Test{
     MyToken public token;
 
     function setUp() public{
-        token = new MyToken(10000);
+        token = new MyToken();
     }
 }
