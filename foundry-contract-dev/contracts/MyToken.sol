@@ -19,7 +19,7 @@ contract MyToken is
 
     function initialize(address owner,uint256 initialSupply) public initializer {
         __ERC20_init("MyToken", "MTK");
-        __Ownable_init(owner);
+        __Ownable_init();
         _transferOwnership(owner);
         __UUPSUpgradeable_init();
 
