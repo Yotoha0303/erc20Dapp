@@ -107,6 +107,10 @@ dapp-front-dev/        //前端
 <!--- ![Project_image](https://github.com/Yotoha0303/ERC20_Dapp_Project/blob/main/images/MyToken%20Dapp.png) --->
 ![Project_exhibition](https://github.com/Yotoha0303/erc20_dapp/blob/main/images/erc20_dapp_exhibition.png)
 
+# 项目近况
+
+新增分红功能中...
+
 # 开源许可
 
 MIT
