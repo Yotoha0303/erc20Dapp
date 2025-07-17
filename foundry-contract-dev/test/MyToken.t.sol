@@ -9,15 +9,18 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 //1、单例测试合约
 contract MyTokenTest is Test{
     MyToken public token;
-    // address public user = new address("user");
+    address public owner = address(0x1);
 
     function setUp() public{
         token = new MyToken();
+        //初始化合约
+        token.initialize(owner,0);
     }
 
     function test_mint() public{
-        // token.mint(msg.sender,10);
-        // assertEq(token.balanceOf(msg.sender), 10);
+        vm.prank(owner);
+        token.mint(owner,10);
+        assertEq(token.balanceOf(owner), 10);
     }
 
     function test_burn() public{

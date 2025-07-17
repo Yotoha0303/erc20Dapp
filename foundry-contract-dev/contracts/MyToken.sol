@@ -17,9 +17,10 @@ contract MyToken is
     UUPSUpgradeable
 {
 
-    function initialize(uint256 initialSupply) public initializer {
+    function initialize(address owner,uint256 initialSupply) public initializer {
         __ERC20_init("MyToken", "MTK");
         __Ownable_init();
+        _transferOwnership(owner);
         __UUPSUpgradeable_init();
 
         _mint(msg.sender, initialSupply);
