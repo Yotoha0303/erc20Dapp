@@ -13,7 +13,7 @@ contract MyTokenTest is Test {
     address public user1 = address(0x2);
     address public user2 = address(0x3);
 
-    uint256 public totalSupply = 10 ** 3;
+    uint256 public totalSupply = 10 ** 2;
 
     function setUp() public {
         token = new MyToken();
@@ -30,11 +30,11 @@ contract MyTokenTest is Test {
     }
 
     function test_decimals() public {
-        // assertEq(token.decimals(), 18 ** 10);
+        assertEq(token.decimals(), 18);
     }
 
     function test_totalSupply() public {
-        // assertEq(token.totalSupply(), totalSupply);
+        assertEq(token.totalSupply(), totalSupply);
     }
 
     function test_mint() public {
@@ -43,7 +43,15 @@ contract MyTokenTest is Test {
         assertEq(token.balanceOf(owner), 10);
     }
 
-    function test_transfer() public {}
+    function test_transfer() public {
+        uint256 amount = 100;
+        vm.prank(owner);
+        token.mint(owner, amount);
+        assertEq(token.balanceOf(owner), amount);
+
+        token.transfer(user1, amount/2);
+        assertEq(token.balanceOf(user1), amount/2);
+    }
 
     function test_transferFrom() public {}
 
@@ -54,12 +62,13 @@ contract MyTokenTest is Test {
         vm.prank(owner);
 
         //需要销毁10个token
-        // uint256 amount = 10;
-        // token.mint(owner, amount);
-        // assertEq(token.balanceOf(owner), amount);
+        uint256 amount = 10;
+        token.mint(owner, amount);
+        assertEq(token.balanceOf(owner), amount);
 
-        // token.burn(owner, amount);
-        // assertEq(token.balanceOf(owner), 0);
+        vm.prank(owner);    //再次调用
+        token.burn(owner, amount);
+        assertEq(token.balanceOf(owner), 0);
     }
 
     function getVersion() public {
